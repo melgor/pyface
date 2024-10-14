@@ -25,3 +25,5 @@ dependencies:
       - torchmetrics==1.4.3
       - torchvision==0.17.2
       - pytorch-lightning==2.4.0
+      - pytest==8.3.3
+      - pytest-mock==3.14.0
