@@ -1,8 +1,8 @@
 import os
 import sys
 
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Any, Optional
 
 from omegaconf import OmegaConf
 
@@ -26,6 +26,9 @@ class ModelConfig:
     head_name: str
     loss_name: str
     embedding_size: int
+    backbone_parameters: dict[str, Any] = field(default_factory=lambda: {})
+    head_parameters: dict[str, Any] = field(default_factory=lambda: {})
+    loss_parameters: dict[str, Any] = field(default_factory=lambda: {})
 
 
 @dataclass
@@ -35,6 +38,10 @@ class OptimisationConfig:
     weigh_decay: float
     momentum: float
     early_stop_patience: int
+    optimizer_config: dict[str, Any]
+    scheduler: str
+    scheduler_config: dict[str, Any]
+    scheduler_interval: str = "epoch"
     grad_accumulation: int = 1
 
 
@@ -48,6 +55,7 @@ class TrainingConfig:
     dataset_config: DatasetConfig
     model_config: ModelConfig
     optimisation_config: OptimisationConfig
+    channel_last: bool = True
     resume_path: Optional[str] = None
     log_every_n_steps: int = 10
     gradient_clip: float = 5.0
