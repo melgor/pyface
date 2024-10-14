@@ -64,8 +64,8 @@ class LocallyConnected2d(nn.Module):
                 x_patch = features[
                     :,
                     :,
-                    x_coordinate * self.stride: x_coordinate * self.stride + self.kernel_size,
-                    y_coordinate * self.stride: y_coordinate * self.stride + self.kernel_size,
+                    x_coordinate * self.stride : x_coordinate * self.stride + self.kernel_size,
+                    y_coordinate * self.stride : y_coordinate * self.stride + self.kernel_size,
                 ]
 
                 # Perform convolution for this patch using location-specific weights

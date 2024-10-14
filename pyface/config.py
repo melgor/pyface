@@ -79,7 +79,7 @@ def validate_config_and_init_paths(config: TrainingConfig):
 
 def load_config(config_path: Optional[str], load_args: bool = False) -> TrainingConfig:
     # Load the configuration file and merge it with the default configuration
-    default_config = TrainingConfig()
+    default_config = TrainingConfig()  # type: ignore
     default_config_omega: TrainingConfig = OmegaConf.structured(default_config)
 
     if config_path is not None:
@@ -91,7 +91,7 @@ def load_config(config_path: Optional[str], load_args: bool = False) -> Training
             cli_config = OmegaConf.from_cli()
             all_configs.append(cli_config)
 
-        default_config_omega = OmegaConf.merge(*all_configs)
+        default_config_omega = OmegaConf.merge(*all_configs)  # type: ignore
         validate_config_and_init_paths(default_config_omega)
     return default_config_omega
 
