@@ -1,0 +1,17 @@
+omegaconf==2.3.0
+torch==2.2.2
+torchmetrics==1.4.3
+torchvision==0.17.2
+pytorch-lightning==2.4.0
+pillow==10.4.0
+numpy==2.1.2
+lightning==2.4.0
+lightning-utilities==0.11.7
+PyYAML==6.0.2
+tqdm==4.66.5
+pandas==2.2.3
+black==24.10.0
+mypy==1.11.2
+isort==5.13.2
+pylint==3.3.1
+flake8==7.1.1
