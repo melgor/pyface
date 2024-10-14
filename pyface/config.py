@@ -34,18 +34,34 @@ class OptimisationConfig:
     optimizer: str
     weigh_decay: float
     momentum: float
+    early_stop_patience: int
+    grad_accumulation: int = 1
 
 
 @dataclass
 class TrainingConfig:
+    experiment_name: str
+    logging_dir: str
     batch_size: int
     num_epochs: int
+    precision: str
     dataset_config: DatasetConfig
     model_config: ModelConfig
     optimisation_config: OptimisationConfig
+    resume_path: Optional[str] = None
+    log_every_n_steps: int = 10
+    gradient_clip: float = 5.0
+    validation_check_interval: float = 0.3
+    num_devices: int = 1
     seed: int = 42
     pin_memory: bool = True
     num_workers: int = 8
+    early_stop_metric: str = "valid/metric_iou_none_epoch"
+    early_stop_metric_min_delta: float = 0.01
+    early_stop_metric_mode: str = "max"
+    model_checkpoint_metric: str = "valid/metric_iou_none_epoch"
+    model_checkpoint_metric_mode: str = "max"
+    model_checkpoint_metric_save_top: int = 2
 
 
 def validate_config_and_init_paths(config: TrainingConfig):
