@@ -58,9 +58,9 @@ class TrainingConfig:
     batch_size: int = 512
     num_epochs: int = 20
     precision: str = "bf16-mixed"
-    dataset_config: DatasetConfig = DatasetConfig()
-    model_config: ModelConfig = ModelConfig()
-    optimisation_config: OptimisationConfig = OptimisationConfig()
+    dataset_config: DatasetConfig = field(default_factory=lambda: DatasetConfig())
+    model_config: ModelConfig = field(default_factory=lambda: ModelConfig())
+    optimisation_config: OptimisationConfig = field(default_factory=lambda: OptimisationConfig())
     channel_last: bool = True
     resume_path: Optional[str] = None
     log_every_n_steps: int = 10

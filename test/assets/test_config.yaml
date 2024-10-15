@@ -1,9 +1,11 @@
 experiment_name: test
 logging_dir: logs
+batch_size: 2
+num_workers: 0
 dataset_config:
-  train_file_path: test/assets/test_config.yaml
-  train_root_dir: test/assets
-  validation_file_path: test/assets/test_config.yaml
-  validation_root_dir: test/assets
-  lfw_file_path: test/assets/test_config.yaml
-  lfw_root_dir: test/assets
+  train_file_path: test/assets/test_data.csv
+  train_root_dir: test/assets/imgs
+  validation_file_path: test/assets/test_data.csv
+  validation_root_dir: test/assets/imgs
+  lfw_file_path: test/assets/test_data.csv
+  lfw_root_dir: test/assets/imgs
