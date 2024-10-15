@@ -1,3 +1,5 @@
+from typing import Any, Callable
+
 from torch.optim import SGD, Adamax, AdamW, Optimizer, RMSprop
 from torch.optim.lr_scheduler import (
     CosineAnnealingLR,
@@ -13,7 +15,7 @@ from torch.optim.lr_scheduler import (
 OPTIMIZERS: dict[str, type[Optimizer]] = {"SGD": SGD, "AdamW": AdamW, "RMSprop": RMSprop, "Adamax": Adamax}
 
 
-SCHEDULERS: dict[str, type[LRScheduler] | None] = {
+SCHEDULERS: dict[str, type[LRScheduler] | Callable[[Any], None]] = {
     "exponential_lr": ExponentialLR,
     "StepLR": StepLR,
     "PolynomialLR": PolynomialLR,

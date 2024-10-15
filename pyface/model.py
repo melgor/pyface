@@ -110,12 +110,11 @@ class FaceRecognitionLightningModule(pl.LightningModule):
         ]
 
     def on_train_epoch_start(self) -> None:
-        if self.config["save_experiment"]:
-            self.epoch_start_time = time.time()
+        self.epoch_start_time = time.time()
 
     def on_train_epoch_end(self) -> None:
         self.epoch_end_time = time.time()
         t_delta = self.epoch_end_time - self.epoch_start_time
         self.log(
-            f"train/epoch_time_sec", t_delta, batch_size=1, on_step=False, on_epoch=True, prog_bar=False, sync_dist=True
+            "train/epoch_time_sec", t_delta, batch_size=1, on_step=False, on_epoch=True, prog_bar=False, sync_dist=True
         )

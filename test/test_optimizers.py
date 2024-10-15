@@ -33,4 +33,4 @@ def test_schedulers(scheduler_name: str, params: dict[str, Any]):
     """Test creation of each scheduler"""
     model = nn.Linear(100, 100)
     optimizer = SGD(model.parameters())
-    scheduler = SCHEDULERS[scheduler_name](optimizer, **params)
+    scheduler = SCHEDULERS[scheduler_name](optimizer, **params)  # noqa: F841
