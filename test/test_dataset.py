@@ -1,5 +1,5 @@
 from pyface.config import load_config
-from pyface.data import FaceRecognitionDataset, FaceDataModule
+from pyface.data import FaceDataModule, FaceRecognitionDataset
 
 
 def test_dataset():
@@ -14,7 +14,7 @@ def test_data_module():
     config_path = "test/assets/test_config.yaml"
     config = load_config(config_path)
     data_module = FaceDataModule(config)
-    data_module.setup('fit')
+    data_module.setup("fit")
     train_dataloader = data_module.train_dataloader()
     valid_dataloader = data_module.val_dataloader()
     for imgs, labels in train_dataloader:
