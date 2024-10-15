@@ -85,7 +85,9 @@ def validate_config_and_init_paths(config: TrainingConfig):
     assert os.path.isfile(config.dataset_config.train_file_path) and os.path.isdir(
         config.dataset_config.train_root_dir
     ), "wrong train files"
-    assert config.dataset_config.validation_file_path and config.dataset_config.validation_root_dir, "setup validation files"
+    assert (
+        config.dataset_config.validation_file_path and config.dataset_config.validation_root_dir
+    ), "setup validation files"
     assert os.path.isfile(config.dataset_config.validation_file_path) and os.path.isdir(
         config.dataset_config.validation_root_dir
     ), "wrong validation files"

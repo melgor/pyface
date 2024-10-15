@@ -17,11 +17,11 @@ flake8:		## Run Flake8
 	@flake8 .
 
 check:    ## Run all checks for Black, Isort, MyPy, Flake8
-	- @echo "Black"
-	- @black --check .
-	- @echo "Isort"
-	- @isort --check .
-	- @echo "MyPY"
-	- @mypy .
-	- @echo "Flake8"
-	- @flake8 .
+	@echo "Black"
+	@black --check .
+	@echo "Isort"
+	@isort --check .
+	@echo "MyPY"
+	@mypy .
+	@echo "Flake8"
+	@flake8 .
