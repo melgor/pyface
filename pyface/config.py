@@ -2,6 +2,7 @@ import os
 import sys
 
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any, Optional
 
 from omegaconf import OmegaConf
@@ -32,7 +33,7 @@ class ModelConfig:
     loss_name: str = "CrossEntropy"
     embedding_size: int = 4096
     backbone_parameters: dict[str, Any] = field(default_factory=lambda: {})
-    head_parameters: dict[str, Any] = field(default_factory=lambda: {})
+    head_parameters: dict[str, Any] = field(default_factory=lambda: {"input_features": 4096, "nb_classes": 100})
     loss_parameters: dict[str, Any] = field(default_factory=lambda: {})
 
 
@@ -114,6 +115,9 @@ def validate_config_and_init_paths(config: TrainingConfig):
     assert (
         config.optimisation_config.scheduler_name in SCHEDULERS.keys()
     ), f"{config.optimisation_config.scheduler_name} not supported. Supported: {SCHEDULERS.keys()}"
+
+    today = datetime.now()
+    config.experiment_name = f"{config.experiment_name}_{today.strftime('%Y_%m_%d_%h_%H_%M_%s')}"
 
 
 def load_config(config_path: Optional[str], load_args: bool = False) -> TrainingConfig:

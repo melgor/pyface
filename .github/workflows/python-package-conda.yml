@@ -26,4 +26,4 @@ jobs:
         make check
     - name: Test with pytest
       run: |
-        pytest
+        pytest --cov=. 
