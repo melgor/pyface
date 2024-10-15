@@ -9,6 +9,8 @@ from data import FaceDataModule
 from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
 
+from .model import FaceRecognitionLightningModule
+
 
 class FaceRecognitionTrainer:
     def __init__(self, config: TrainingConfig):
@@ -57,8 +59,8 @@ class FaceRecognitionTrainer:
         )
 
         data_model = FaceDataModule(config=self.config)
+        model = FaceRecognitionLightningModule(self.config)
 
-        model = "a"
         try:
             self.trainer.fit(model, data_model, ckpt_path=self.config.resume_path)
         finally:

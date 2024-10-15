@@ -1,0 +1,9 @@
+experiment_name: test
+logging_dir: logs
+dataset_config:
+  train_file_path: test/assets/test_config.yaml
+  train_root_dir: test/assets
+  validation_file_path: test/assets/test_config.yaml
+  validation_root_dir: test/assets
+  lfw_file_path: test/assets/test_config.yaml
+  lfw_root_dir: test/assets

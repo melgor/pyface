@@ -6,12 +6,22 @@ import lightning as pl
 import torch
 
 from torch import nn
+from torch.optim import Optimizer
+from torch.optim.lr_scheduler import LRScheduler
 
-from .config import TrainingConfig
+from .config import OptimisationConfig, TrainingConfig
 from .models.backbones import BACKBONES
 from .models.heads import HEADS
 from .models.losses import LOSSES
-from .optimizers import get_optimizer, get_scheduler
+from .optimizers import OPTIMIZERS, SCHEDULERS
+
+
+def get_optimizer(config: OptimisationConfig, model: nn.Module) -> Optimizer:
+    return OPTIMIZERS[config.optimizer_name](model.parameters(), **config.optimizer_config)
+
+
+def get_scheduler(config: OptimisationConfig, optimizer: Optimizer) -> Optional[LRScheduler]:
+    return SCHEDULERS[config.scheduler_name](optimizer, **config.scheduler_config)
 
 
 class FaceRecognitionModel(pl.LightningModule):
