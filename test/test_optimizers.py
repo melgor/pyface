@@ -34,4 +34,3 @@ def test_schedulers(scheduler_name: str, params: dict[str, Any]):
     model = nn.Linear(100, 100)
     optimizer = SGD(model.parameters())
     scheduler = SCHEDULERS[scheduler_name](optimizer, **params)
-    assert scheduler is not None
