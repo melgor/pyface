@@ -30,4 +30,6 @@ dependencies:
       - pytest-mock==3.14.0
       - coverage==7.6.3
       - pytest-cov==5.0.0
+      - tensorboard==2.18.0
+      - loguru==0.7.2
 

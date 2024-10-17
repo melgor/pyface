@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
+from loguru import logger
 from omegaconf import OmegaConf
 
 from .models.backbones import BACKBONES
@@ -23,7 +24,7 @@ class DatasetConfig:
     lfw_root_dir: Optional[str] = None
     data_input_size: tuple[int, int] = 112, 112
     network_input_size: tuple[int, int] = 112, 112
-    train_resize_for_crop: int = 128
+    train_resize_for_crop: tuple[int, int] = 128, 128
 
 
 @dataclass
@@ -31,9 +32,9 @@ class ModelConfig:
     backbone_name: str = "DeepFace"
     head_name: str = "ClassificationLayer"
     loss_name: str = "CrossEntropy"
-    embedding_size: int = 4096
+    embedding_size: int = 512
     backbone_parameters: dict[str, Any] = field(default_factory=lambda: {})
-    head_parameters: dict[str, Any] = field(default_factory=lambda: {"input_features": 4096, "nb_classes": 100})
+    head_parameters: dict[str, Any] = field(default_factory=lambda: {"nb_classes": 100})
     loss_parameters: dict[str, Any] = field(default_factory=lambda: {})
 
 
@@ -62,6 +63,7 @@ class TrainingConfig:
     model_config: ModelConfig = field(default_factory=lambda: ModelConfig())
     optimisation_config: OptimisationConfig = field(default_factory=lambda: OptimisationConfig())
     channel_last: bool = True
+    compile_model: bool = True
     resume_path: Optional[str] = None
     log_every_n_steps: int = 10
     gradient_clip: float = 5.0
@@ -80,8 +82,6 @@ class TrainingConfig:
 
 def validate_config_and_init_paths(config: TrainingConfig):
     """Add root location to images and labels location"""
-    print(config.dataset_config.train_file_path)
-
     assert config.dataset_config.train_file_path and config.dataset_config.train_root_dir, "setup train files"
     assert os.path.isfile(config.dataset_config.train_file_path) and os.path.isdir(
         config.dataset_config.train_root_dir
@@ -122,6 +122,7 @@ def validate_config_and_init_paths(config: TrainingConfig):
 
 def load_config(config_path: Optional[str], load_args: bool = False) -> TrainingConfig:
     # Load the configuration file and merge it with the default configuration
+    logger.info(f"Load config: {config_path}")
     default_config = TrainingConfig()  # type: ignore
     default_config_omega: TrainingConfig = OmegaConf.structured(default_config)
 

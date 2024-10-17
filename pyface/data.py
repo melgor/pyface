@@ -8,6 +8,7 @@ import pandas as pd
 import torch
 import torchvision.transforms.v2 as transforms
 
+from loguru import logger
 from torch.utils.data import DataLoader, Dataset
 from torchvision.io import read_image
 
@@ -27,8 +28,7 @@ class FaceRecognitionDataset(Dataset):
         label = row["label"]
         if self.transform:
             image = self.transform(image)
-
-        return image, label
+        return image.float(), label
 
     def __len__(self) -> int:
         return self.img_labels.shape[0]
@@ -69,6 +69,7 @@ class FaceDataModule(pl.LightningDataModule):
 
     def setup(self, stage: str):
         if stage == "fit":
+            logger.info("Prepare datasets")
             self._train_dataset, self._validation_dataset = self.create_dataset()
         else:
             raise NotImplementedError("Test phase data model is not implemented yet.")

@@ -84,7 +84,7 @@ class DeepFace(nn.Module):
     This implementation works with 112x112, original paper with 152x152.
     """
 
-    def __init__(self, num_features: int = 4096):
+    def __init__(self, embedding_size: int = 4096):
         super(DeepFace, self).__init__()
 
         # C1: Convolution Layer
@@ -110,7 +110,8 @@ class DeepFace(nn.Module):
         )
 
         # F7: Fully Connected Layer
-        self.fc1 = nn.Linear(256 * 22 * 22, num_features)  # Adjusted for flattened size from locally connected layers
+        self.fc1 = nn.Linear(256 * 22 * 22, embedding_size)  # Adjusted for flattened size from locally connected layers
+        self.dropout = nn.Dropout(p=0.5)
 
     def forward(self, features: torch.Tensor) -> torch.Tensor:
         features = F.relu(self.conv1(features))
@@ -126,4 +127,5 @@ class DeepFace(nn.Module):
 
         # F7 -> Fully Connected Layer
         features = F.relu(self.fc1(features))
+        features = self.dropout(features)
         return features

@@ -4,11 +4,12 @@ from typing import Optional
 
 import lightning as pl
 
-from config import TrainingConfig
-from data import FaceDataModule
 from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
+from loguru import logger
 
+from .config import TrainingConfig
+from .data import FaceDataModule
 from .model import FaceRecognitionLightningModule
 
 
@@ -17,7 +18,7 @@ class FaceRecognitionTrainer:
         self.config = config
         self.trainer: Optional[pl.Trainer] = None
 
-    def train(self):
+    def train(self, lightning_module: type[pl.LightningModule] = FaceRecognitionLightningModule):
         lr_monitor = LearningRateMonitor(logging_interval="step")
         early_stop_callback = EarlyStopping(
             monitor=self.config.early_stop_metric,
@@ -47,7 +48,7 @@ class FaceRecognitionTrainer:
             max_epochs=self.config.num_epochs + 1,
             callbacks=[lr_monitor, early_stop_callback, model_checkpoints],
             logger=loggers,
-            precision=self.config.precision,
+            precision=self.config.precision,  # type:ignore
             benchmark=True,
             deterministic=False,
             default_root_dir=self.config.logging_dir,
@@ -59,10 +60,12 @@ class FaceRecognitionTrainer:
         )
 
         data_model = FaceDataModule(config=self.config)
-        model = FaceRecognitionLightningModule(self.config)
+        model = lightning_module(self.config)
 
-        try:
-            self.trainer.fit(model, data_model, ckpt_path=self.config.resume_path)
-        finally:
-            self.trainer.save_checkpoint(weight_dir + "last.pth")
-            model_checkpoints.to_yaml()
+        # try:
+        logger.info("Start training")
+        self.trainer.fit(model, data_model, ckpt_path=self.config.resume_path)
+        logger.info("Training finalized")
+        # finally:
+        #     self.trainer.save_checkpoint(weight_dir + "last.pth")
+        #     model_checkpoints.to_yaml()
