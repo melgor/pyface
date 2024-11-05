@@ -18,8 +18,8 @@ def get_class_ranks(query_embeddings: np.ndarray, gallery_embeddings: np.ndarray
 
     index = faiss.IndexFlatL2(gallery_embeddings.shape[1])
     index.add(gallery_embeddings)
-    _, I = index.search(query_embeddings, 1000)
-    return I
+    _, indices = index.search(query_embeddings, 1000)
+    return indices
 
 
 def compute_precision_at_k(ranked_targets: np.ndarray, k: int) -> float:

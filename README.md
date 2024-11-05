@@ -1,8 +1,8 @@
 # pyface
 Train Face-Recognition model with ease
 
-## TODO:
-- [] two validation sets, one from MS, second one is LFW
-- [] validation metric. Retrieval, MAP?
-- [] split MS to train and valid set
-- [] balanced samplers?
+Library implement old and new Face-Recognition architectures, together with their loss functions.
+
+There is the series of associated blog post with this repository:
+1. History of Face Recognition: Part 1 - DeepFace
+

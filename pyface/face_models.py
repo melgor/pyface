@@ -32,7 +32,7 @@ class ForwardProtocol(Protocol):
             if isinstance(m, nn.Conv2d):
                 # init.xavier_uniform_(m.weight.data)
                 init.orthogonal_(m.weight.data)
-                if m.bias != None:
+                if m.bias is not None:
                     init.constant_(m.bias.data, val=0.5)
                     # m.bias.data.zero_()
             elif isinstance(m, nn.BatchNorm2d):
@@ -41,7 +41,7 @@ class ForwardProtocol(Protocol):
             elif isinstance(m, nn.Linear):
                 # init.normal_(m.weight.data, 0, 0.01)
                 init.orthogonal_(m.weight.data)
-                if m.bias != None:
+                if m.bias is not None:
                     init.constant_(m.bias.data, val=0.5)
                     # m.bias.data.zero_()
 

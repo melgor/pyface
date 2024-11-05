@@ -17,8 +17,6 @@ from pyface.models.heads import ClassificationLayer
 if __name__ == "__main__":
     train_file_path = "/home/blcv/Projects/pyface-data/CASIA-maxpy-clean-aligned-112/casia_webface.csv"
     train_root_dir = "/home/blcv/Projects/pyface-data/CASIA-maxpy-clean-aligned-112/"
-    # train_file_path: / home / blcv / Projects / pyface - data / CASIA - maxpy - clean - aligned - 112 / casia_webface.csv
-    # train_root_dir: / home / blcv / Projects / pyface - data / CASIA - maxpy - clean - aligned - 112
     lfw_file_path = "/home/blcv/Projects/pyface-data/LFW/lfw_filenames.csv"
     lfw_root_dir = "/home/blcv/Projects/pyface-data/LFW/lfw_align_112"
     lfw_pairs_path = "/home/blcv/Projects/pyface-data/LFW/pairs.txt"
@@ -42,8 +40,7 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=64, num_workers=8, shuffle=True)
     valid_loader = DataLoader(valid_dataset, batch_size=64, num_workers=8, shuffle=False)
 
-    model = CasiaNet(320)
-    model = torch.compile(model)
+    model: nn.Module = torch.compile(CasiaNet(320))  # type: ignore
     classifier = ClassificationLayer(320, 10575, 0.0)
     optimizer = SGD(
         [

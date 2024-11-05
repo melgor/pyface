@@ -1,14 +1,12 @@
 import time
 
-from typing import Optional, Union
+from typing import Optional
 
 import lightning as pl
-import numpy as np
 import torch
 import torchmetrics
 
 from loguru import logger
-from sklearn.preprocessing import normalize
 from torch import nn
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LRScheduler
@@ -17,7 +15,7 @@ from .config import OptimisationConfig, TrainingConfig
 from .datasets.lfw_evaluator import LFWEvaluator
 from .evaulation.metrics import ModelFeatures, evaluate_identification_metric
 from .face_models import DeepIDFaceRecognitionModel, FaceRecognitionModel
-from .models.losses import LOSSES, ContrastiveLoss
+from .models.losses import LOSSES
 from .models.losses.infonce import InfoNCELoss
 from .optimizers import OPTIMIZERS, SCHEDULERS
 
@@ -76,7 +74,7 @@ class FaceRecognitionLightningModule(pl.LightningModule):
         self.log("train/accuracy", self._accuracy)
 
         self.log(
-            f"train/loss",
+            "train/loss",
             loss.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -87,7 +85,7 @@ class FaceRecognitionLightningModule(pl.LightningModule):
 
         _step_delta = time.time() - _step_start_ts
         self.log(
-            f"train/forward_time",
+            "train/forward_time",
             _step_delta,
             batch_size=1,
             on_step=True,
@@ -158,23 +156,6 @@ class FaceRecognitionLightningModule(pl.LightningModule):
         self._validation_data = {0: [], 1: []}
         logger.info(f"LFW:{acc}  UMD:{mAP}")
 
-        # targets = torch.cat(targets).cpu().numpy()
-        #
-        # # TODO: Normalize before centering?
-        # if y_embeddings.shape[0] <= self.config.batch_size * 2:
-        #     # sanity check run
-        #     return
-        #
-        # y_embeddings = normalize(y_embeddings)
-        # query_data = ModelFeatures(y_embeddings[: self._umd_query_set], targets[: self._umd_query_set])
-        # gallery_data = ModelFeatures(y_embeddings[self._umd_query_set :], targets[self._umd_query_set :])
-        #
-        # try:
-        #     mAP = evaluate_umd_faces(query_data, gallery_data)
-        # except ValueError:
-        #     mAP = 0.0
-        # self.log("valid/umd_mAP", mAP, on_step=False, on_epoch=True, sync_dist=True)
-
 
 class DeepIDLightningModule(FaceRecognitionLightningModule):
     def __init__(self, config: TrainingConfig):
@@ -209,7 +190,7 @@ class DeepIDLightningModule(FaceRecognitionLightningModule):
         self.log("train/accuracy", self._accuracy)
 
         self.log(
-            f"train/loss",
+            "train/loss",
             loss.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -219,7 +200,7 @@ class DeepIDLightningModule(FaceRecognitionLightningModule):
         )
 
         self.log(
-            f"train/loss_classes",
+            "train/loss_classes",
             loss_classes.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -228,7 +209,7 @@ class DeepIDLightningModule(FaceRecognitionLightningModule):
             sync_dist=True,
         )
         self.log(
-            f"train/loss_contrastive",
+            "train/loss_contrastive",
             loss_contrastive.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -239,7 +220,7 @@ class DeepIDLightningModule(FaceRecognitionLightningModule):
 
         _step_delta = time.time() - _step_start_ts
         self.log(
-            f"train/forward_time",
+            "train/forward_time",
             _step_delta,
             batch_size=1,
             on_step=True,
@@ -270,7 +251,7 @@ class CasiaNetLightningModule(FaceRecognitionLightningModule):
         self._accuracy(output_classes, labels)
         self.log("train/accuracy", self._accuracy)
         self.log(
-            f"train/loss",
+            "train/loss",
             loss.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -280,7 +261,7 @@ class CasiaNetLightningModule(FaceRecognitionLightningModule):
         )
 
         self.log(
-            f"train/loss_classes",
+            "train/loss_classes",
             loss_classes.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -289,7 +270,7 @@ class CasiaNetLightningModule(FaceRecognitionLightningModule):
             sync_dist=True,
         )
         self.log(
-            f"train/loss_contrastive",
+            "train/loss_contrastive",
             loss_contrastive.item(),
             batch_size=images.size(0),
             on_step=True,
@@ -300,7 +281,7 @@ class CasiaNetLightningModule(FaceRecognitionLightningModule):
 
         _step_delta = time.time() - _step_start_ts
         self.log(
-            f"train/forward_time",
+            "train/forward_time",
             _step_delta,
             batch_size=1,
             on_step=True,

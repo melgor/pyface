@@ -1,4 +1,3 @@
-import math
 import os
 
 from typing import Callable
@@ -7,7 +6,6 @@ import numpy as np
 import pandas as pd
 
 from loguru import logger
-from pyexpat import features
 from scipy.spatial.distance import cosine
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
@@ -96,7 +94,7 @@ def cosine_distance(x1: np.ndarray, x2: np.ndarray) -> np.ndarray:
 def get_distances(
     embeddings: np.ndarray,
     pairs_train: list[tuple[int, int]],
-    distance_function: Callable[[tuple[np.ndarray, np.ndarray]], float],
+    distance_function: Callable[[np.ndarray, np.ndarray], np.ndarray],
 ) -> tuple[np.ndarray, np.ndarray]:
     """Given embeddings and pairs, find distance between them"""
     list_dist = []
@@ -163,10 +161,10 @@ def verify_exp(pairs, embeddings, cosine=False):
     return avg, std
 
 
-if __name__ == "__main__":
-    lfw_paths = "lfw_paths.csv"
-    lfw_pairs = "pairs.txt"
-    lfw_evaluator = LFWEvaluator(lfw_paths, lfw_pairs)
-    features = np.random.randn(len(lfw_evaluator.paths), 128)
-    accuracy = lfw_evaluator.evaluate(features)
-    print(accuracy)
+# if __name__ == "__main__":
+lfw_paths = "lfw2.csv"
+lfw_pairs = "pairs.txt"
+lfw_evaluator = LFWEvaluator(lfw_paths, lfw_pairs)
+features = np.random.randn(len(lfw_evaluator.paths), 128)
+accuracy = lfw_evaluator.evaluate(features)
+print(accuracy)

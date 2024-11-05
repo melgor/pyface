@@ -4,7 +4,7 @@ import random
 
 from collections import defaultdict
 from enum import Enum
-from typing import Optional, Tuple
+from typing import Optional
 
 import lightning as pl
 import numpy as np
@@ -178,16 +178,11 @@ class FaceDataModule(pl.LightningDataModule):
         return train_dataset, lfw_dataset, validation_dataset
 
     def train_dataloader(self) -> DataLoader[FaceRecognitionDataset]:
-        # return DataLoader(
-        #     self._train_dataset, batch_size=self._config.batch_size, shuffle=True, num_workers=self._config.num_workers
-        # )
         train_targets = torch.tensor(self._train_dataset.img_labels["label"].tolist())
         return DataLoader(
             self._train_dataset,
             batch_sampler=ClassBalancedBatchSampler(train_targets, self._config.batch_size),
             num_workers=self._config.num_workers,
-            # batch_size=self._config.batch_size,
-            # shuffle=True,
         )
 
     def val_dataloader(self) -> list[DataLoader[FaceRecognitionDataset]]:
