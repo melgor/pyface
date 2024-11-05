@@ -5,7 +5,10 @@ num_workers: 1
 num_epochs: 0
 precision: 32
 compile_model: False
+use_wandb_logger: False
 log_every_n_steps: 1
+early_stop_metric: train/accuracy
+model_checkpoint_metric: train/accuracy
 dataset_config:
   train_file_path: test/assets/test_data.csv
   train_root_dir: test/assets/imgs
@@ -13,9 +16,10 @@ dataset_config:
   validation_root_dir: test/assets/imgs
   lfw_file_path: test/assets/test_data.csv
   lfw_root_dir: test/assets/imgs
+  lfw_pairs_path: test/assets/test_pairs.txt
   network_input_size:
-    - 55
-    - 47
+    - 56
+    - 56
 optimisation_config:
   scheduler_config:
     step_size: 10

@@ -77,6 +77,7 @@ class TrainingConfig:
     model_checkpoint_metric: str = "valid/umd_mAP"
     model_checkpoint_metric_mode: str = "max"
     model_checkpoint_metric_save_top: int = 2
+    use_wandb_logger: bool = True
 
 
 def validate_config_and_init_paths(config: TrainingConfig):

@@ -43,12 +43,14 @@ class FaceRecognitionTrainer:
         tensorboard_logger = TensorBoardLogger(
             os.path.join(self.config.logging_dir, "tensorboard"), self.config.experiment_name, version="tb"
         )
-        wandb_logger = WandbLogger(
-            project=self.config.wandb_name,
-            name=self.config.experiment_name,
-            save_dir=os.path.join(self.config.logging_dir, "wandb"),
-        )
-        loggers = [tensorboard_logger, wandb_logger]
+        loggers = [tensorboard_logger]
+        if self.config.use_wandb_logger:
+            wandb_logger = WandbLogger(
+                project=self.config.wandb_name,
+                name=self.config.experiment_name,
+                save_dir=os.path.join(self.config.logging_dir, "wandb"),
+            )
+            loggers.append(wandb_logger)
 
         self.trainer = pl.Trainer(
             max_epochs=self.config.num_epochs + 1,

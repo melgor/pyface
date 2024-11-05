@@ -20,7 +20,6 @@ def load_pairs(pairs_filename: str) -> np.ndarray:
         for line in f.readlines()[1:]:
             pair = line.strip().split()
             pairs.append(pair)
-    assert len(pairs) == 6000
     return np.asarray(pairs, dtype="object")
 
 
@@ -161,10 +160,10 @@ def verify_exp(pairs, embeddings, cosine=False):
     return avg, std
 
 
-# if __name__ == "__main__":
-lfw_paths = "lfw2.csv"
-lfw_pairs = "pairs.txt"
-lfw_evaluator = LFWEvaluator(lfw_paths, lfw_pairs)
-features = np.random.randn(len(lfw_evaluator.paths), 128)
-accuracy = lfw_evaluator.evaluate(features)
-print(accuracy)
+if __name__ == "__main__":
+    lfw_paths = "lfw2.csv"
+    lfw_pairs = "pairs.txt"
+    lfw_evaluator = LFWEvaluator(lfw_paths, lfw_pairs)
+    features = np.random.randn(len(lfw_evaluator.paths), 128)
+    accuracy = lfw_evaluator.evaluate(features)
+    print(accuracy)

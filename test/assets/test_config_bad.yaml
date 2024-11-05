@@ -1,2 +1,3 @@
 experiment_name: test
 logging_dir: logs
+use_wandb_logger: False

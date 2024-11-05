@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from pyface.models.backbones.deepface import LocallyConnectedLayer
+from .deepface import LocallyConnectedLayer
 
 
 class DeepID2Plus(nn.Module):
@@ -11,19 +11,19 @@ class DeepID2Plus(nn.Module):
 
         # First two convolutional layers
         self.conv1 = nn.Sequential(
-            nn.Conv2d(3, 128, kernel_size=4, stride=1), nn.MaxPool2d(kernel_size=2), nn.ReLU()  # Output: (20, 52, 44)
+            nn.Conv2d(3, 128, kernel_size=4, stride=1), nn.MaxPool2d(kernel_size=2), nn.ReLU()  # Output: (20, 52, 52)
         )
         self.liner1 = nn.Linear(128 * 26 * 26, embedding_size)
 
         self.conv2 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1),  # Output: (20, 52, 44)
+            nn.Conv2d(128, 128, kernel_size=3, stride=1),  # Output: (20, 52, 52)
             nn.MaxPool2d(kernel_size=2),
             nn.ReLU(),
         )
         self.liner2 = nn.Linear(128 * 12 * 12, embedding_size)
         # Third layer with local weight sharing in 2x2 regions
         self.conv3 = nn.Sequential(
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, groups=16),  # Output: (20, 52, 44)
+            nn.Conv2d(128, 128, kernel_size=3, stride=1, groups=16),  # Output: (20, 52, 52)
             nn.MaxPool2d(kernel_size=2),
             nn.ReLU(),
         )
@@ -60,3 +60,10 @@ class DeepID2Plus(nn.Module):
         # Fully connected layers
         features_final = F.relu(self.fc1(x_merged))
         return features_final, features_1, features_2, features_3
+
+
+# Example usage
+if __name__ == "__main__":
+    from torchsummary import summary
+    model = DeepID2Plus(embedding_size=512)
+    summary(model, (3, 56, 56), device="cpu")

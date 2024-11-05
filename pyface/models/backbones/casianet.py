@@ -1,9 +1,6 @@
 import torch
 import torch.nn as nn
 
-from torch.nn import init
-from torchsummary import summary
-
 
 class CasiaNet(nn.Module):
     def __init__(self, embedding_size: int):
@@ -69,5 +66,6 @@ class CasiaNet(nn.Module):
 
 # Example usage
 if __name__ == "__main__":
-    model = CasiaNet(embedding_size=320)
-    summary(model, (3, 100, 100), device="cpu")
+    from torchsummary import summary
+    model = CasiaNet(embedding_size=512)
+    summary(model, (3, 112, 112), device="cpu")
