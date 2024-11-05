@@ -67,5 +67,6 @@ class CasiaNet(nn.Module):
 # Example usage
 if __name__ == "__main__":
     from torchsummary import summary
+
     model = CasiaNet(embedding_size=512)
     summary(model, (3, 112, 112), device="cpu")

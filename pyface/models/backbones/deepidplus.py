@@ -65,5 +65,6 @@ class DeepID2Plus(nn.Module):
 # Example usage
 if __name__ == "__main__":
     from torchsummary import summary
+
     model = DeepID2Plus(embedding_size=512)
     summary(model, (3, 56, 56), device="cpu")

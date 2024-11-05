@@ -6,6 +6,7 @@ import lightning as pl
 
 from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger, WandbLogger
+from lightning.pytorch.loggers.logger import Logger
 from loguru import logger
 
 from pyface.datasets.data import FaceDataModule
@@ -43,7 +44,7 @@ class FaceRecognitionTrainer:
         tensorboard_logger = TensorBoardLogger(
             os.path.join(self.config.logging_dir, "tensorboard"), self.config.experiment_name, version="tb"
         )
-        loggers = [tensorboard_logger]
+        loggers: list[Logger] = [tensorboard_logger]
         if self.config.use_wandb_logger:
             wandb_logger = WandbLogger(
                 project=self.config.wandb_name,
