@@ -20,3 +20,8 @@ coverage==7.6.3
 pytest-cov==5.0.0
 tensorboard==2.18.0
 loguru==0.7.2
+faiss-cpu==1.9.0
+scikit-learn~=1.5.2
+torchsummary~=1.5.1
+scipy~=1.14.1
+transformers~=4.46.0

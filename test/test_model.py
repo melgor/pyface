@@ -2,7 +2,8 @@ import torch
 
 from pyface.config import load_config
 from pyface.data import FaceDataModule
-from pyface.model import FaceRecognitionLightningModule, FaceRecognitionModel
+from pyface.face_models import FaceRecognitionModel
+from pyface.model import FaceRecognitionLightningModule
 
 
 def test_face_model():

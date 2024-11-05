@@ -22,9 +22,10 @@ class DatasetConfig:
     validation_root_dir: Optional[str] = None
     lfw_file_path: Optional[str] = None
     lfw_root_dir: Optional[str] = None
+    lfw_pairs_path: Optional[str] = None
     data_input_size: tuple[int, int] = 112, 112
     network_input_size: tuple[int, int] = 112, 112
-    train_resize_for_crop: tuple[int, int] = 128, 128
+    train_resize_for_crop: tuple[int, int] = 112, 112
 
 
 @dataclass
@@ -40,10 +41,7 @@ class ModelConfig:
 
 @dataclass
 class OptimisationConfig:
-    learning_rate: float = 0.001
     optimizer_name: str = "AdamW"
-    weigh_decay: float = 1e-4
-    momentum: float = 0.9
     early_stop_patience: int = 5
     optimizer_config: dict[str, Any] = field(default_factory=lambda: {})
     scheduler_name: str = "StepLR"
@@ -56,6 +54,7 @@ class OptimisationConfig:
 class TrainingConfig:
     experiment_name: Optional[str] = None
     logging_dir: Optional[str] = None
+    wandb_name: Optional[str] = "pyface"
     batch_size: int = 512
     num_epochs: int = 20
     precision: str = "bf16-mixed"
@@ -72,10 +71,10 @@ class TrainingConfig:
     seed: int = 42
     pin_memory: bool = True
     num_workers: int = 8
-    early_stop_metric: str = "valid/metric_iou_none_epoch"
+    early_stop_metric: str = "valid/umd_mAP"
     early_stop_metric_min_delta: float = 0.01
     early_stop_metric_mode: str = "max"
-    model_checkpoint_metric: str = "valid/metric_iou_none_epoch"
+    model_checkpoint_metric: str = "valid/umd_mAP"
     model_checkpoint_metric_mode: str = "max"
     model_checkpoint_metric_save_top: int = 2
 
@@ -86,12 +85,12 @@ def validate_config_and_init_paths(config: TrainingConfig):
     assert os.path.isfile(config.dataset_config.train_file_path) and os.path.isdir(
         config.dataset_config.train_root_dir
     ), "wrong train files"
-    assert (
-        config.dataset_config.validation_file_path and config.dataset_config.validation_root_dir
-    ), "setup validation files"
-    assert os.path.isfile(config.dataset_config.validation_file_path) and os.path.isdir(
-        config.dataset_config.validation_root_dir
-    ), "wrong validation files"
+    # assert (
+    #     config.dataset_config.validation_file_path and config.dataset_config.validation_root_dir
+    # ), "setup validation files"
+    # assert os.path.isfile(config.dataset_config.validation_file_path) and os.path.isdir(
+    #     config.dataset_config.validation_root_dir
+    # ), "wrong validation files"
     assert config.dataset_config.lfw_file_path and config.dataset_config.lfw_root_dir, "setup LFW files"
     assert os.path.isfile(config.dataset_config.lfw_file_path) and os.path.isdir(
         config.dataset_config.lfw_root_dir
@@ -137,6 +136,7 @@ def load_config(config_path: Optional[str], load_args: bool = False) -> Training
 
         default_config_omega = OmegaConf.merge(*all_configs)  # type: ignore
         validate_config_and_init_paths(default_config_omega)
+
     return default_config_omega
 
 

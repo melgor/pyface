@@ -1,0 +1,42 @@
+experiment_name: casia_ms1m_contrastive_softmax
+logging_dir: /home/blcv/Projects/pyface-data/logs
+batch_size: 512
+num_workers: 16
+compile_model: True
+validation_check_interval: 1.0
+early_stop_metric: valid/umd_mAP
+model_checkpoint_metric: valid/umd_mAP
+num_epochs: 16
+#precision: 16-mixed
+#channel_last: False
+dataset_config:
+  train_file_path: /home/blcv/Projects/pyface-data/ms1m_align_112/ms1m_faces.csv
+  train_root_dir: /home/blcv/Projects/pyface-data/ms1m_align_112
+  validation_file_path: /home/blcv/Projects/pyface-data/UmdFaces/umd_faces.csv
+  validation_root_dir: /home/blcv/Projects/pyface-data/UmdFaces/
+#  train_file_path: /home/blcv/Projects/pyface-data/CASIA-maxpy-clean-aligned-112/casia_webface.csv
+#  train_root_dir: /home/blcv/Projects/pyface-data/CASIA-maxpy-clean-aligned-112
+#  train_file_path: /home/blcv/Projects/pyface-data/LFW/lfw_filenames.csv
+#  train_root_dir: /home/blcv/Projects/pyface-data/LFW/lfw_align_112
+  lfw_file_path: /home/blcv/Projects/pyface-data/LFW/lfw2.csv
+  lfw_root_dir: /home/blcv/Projects/pyface-data/LFW/lfw_evolve
+  lfw_pairs_path: /home/blcv/Projects/pyface-data/LFW/pairs.txt
+  network_input_size:
+    - 112
+    - 112
+optimisation_config:
+  early_stop_patience: 12
+  scheduler_name: StepLR
+  scheduler_config:
+    step_size: 5
+  optimizer_name: SGD
+  optimizer_config:
+    momentum: 0.9
+    weight_decay: 0.0005
+    lr: 0.04
+model_config:
+  backbone_name: CasiaNet
+  embedding_size: 512
+  head_parameters:
+    nb_classes: 85742
+    dropout_rate: 0.0

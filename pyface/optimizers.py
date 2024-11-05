@@ -11,6 +11,7 @@ from torch.optim.lr_scheduler import (
     ReduceLROnPlateau,
     StepLR,
 )
+from transformers import get_cosine_schedule_with_warmup
 
 OPTIMIZERS: dict[str, type[Optimizer]] = {"SGD": SGD, "AdamW": AdamW, "RMSprop": RMSprop, "Adamax": Adamax}
 
@@ -23,5 +24,6 @@ SCHEDULERS: dict[str, type[LRScheduler] | Callable[[Any], None]] = {
     "CosineAnnealingLR": CosineAnnealingLR,
     "CosineAnnealingWarmRestarts": CosineAnnealingWarmRestarts,
     "CyclicLR": CyclicLR,
+    "CosineWarmup": get_cosine_schedule_with_warmup,
     "none": lambda x: None,
 }
