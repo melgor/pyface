@@ -6,3 +6,7 @@ Library implement old and new Face-Recognition architectures, together with thei
 There is the series of associated blog post with this repository:
 1. History of Face Recognition: Part 1 - DeepFace
 
+
+TODO:
+1. List to all datasets
+
