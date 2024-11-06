@@ -1,8 +1,5 @@
-import numpy as np
-
 from pyface.config import load_config
-from pyface.datasets.data import FaceRecognitionDataset, FaceDataModule
-from pyface.datasets.lfw_evaluator import LFWEvaluator
+from pyface.datasets.data import FaceDataModule, FaceRecognitionDataset
 
 
 def test_dataset():
