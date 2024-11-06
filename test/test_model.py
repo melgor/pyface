@@ -1,7 +1,7 @@
 import torch
 
 from pyface.config import load_config
-from pyface.data import FaceDataModule
+from pyface.datasets.data import FaceDataModule
 from pyface.face_models import FaceRecognitionModel
 from pyface.model import FaceRecognitionLightningModule
 
@@ -35,7 +35,7 @@ def test_optimisation_loop_for_model():
     data_module = FaceDataModule(config)
     data_module.setup("fit")
     train_dataloader = data_module.train_dataloader()
-    valid_dataloader = data_module.val_dataloader()
+    valid_dataloader = data_module.val_dataloader()[0]
 
     face_module.train()
     for batch in train_dataloader:
@@ -47,5 +47,5 @@ def test_optimisation_loop_for_model():
     face_module.eval()
     with torch.no_grad():
         for batch in valid_dataloader:
-            loss = face_module.validation_step(batch, 0)
-            assert loss is not None
+            face_module.validation_step(batch, 0)
+            assert len(face_module._validation_data) > 0

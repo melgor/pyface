@@ -1,5 +1,5 @@
 from pyface.config import load_config
-from pyface.model import DeepIDLightningModule
+from pyface.model import CasiaNetLightningModule
 from pyface.trainer import FaceRecognitionTrainer
 
 
@@ -9,4 +9,4 @@ def test_trainer(tmpdir: str):
     config = load_config(config_path)
     config.logging_dir = tmpdir
     trainer = FaceRecognitionTrainer(config)
-    trainer.train(DeepIDLightningModule)
+    trainer.train(CasiaNetLightningModule)

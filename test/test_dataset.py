@@ -1,5 +1,8 @@
+import numpy as np
+
 from pyface.config import load_config
-from pyface.data import FaceDataModule, FaceRecognitionDataset
+from pyface.datasets.data import FaceRecognitionDataset, FaceDataModule
+from pyface.datasets.lfw_evaluator import LFWEvaluator
 
 
 def test_dataset():
@@ -16,7 +19,7 @@ def test_data_module():
     data_module = FaceDataModule(config)
     data_module.setup("fit")
     train_dataloader = data_module.train_dataloader()
-    valid_dataloader = data_module.val_dataloader()
+    valid_dataloader = data_module.val_dataloader()[0]
     for imgs, labels in train_dataloader:
         assert imgs is not None
         assert labels is not None
@@ -24,3 +27,12 @@ def test_data_module():
     for imgs, labels in valid_dataloader:
         assert imgs is not None
         assert labels is not None
+
+
+# def test_lfw():
+#     lfw_paths = "test/assets/test_data.csv"
+#     lfw_pairs = "test/assets/test_pairs.txt"
+#     lfw_evaluator = LFWEvaluator(lfw_paths, lfw_pairs)
+#     features = np.random.randn(len(lfw_evaluator.paths), 128)
+#     accuracy = lfw_evaluator.evaluate(features)
+#     print(accuracy)

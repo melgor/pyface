@@ -18,10 +18,10 @@ dataset_config:
   lfw_root_dir: test/assets/imgs
   lfw_pairs_path: test/assets/test_pairs.txt
   network_input_size:
-    - 56
-    - 56
+    - 100
+    - 100
 optimisation_config:
   scheduler_config:
     step_size: 10
 model_config:
-  backbone_name: DeepID2Plus
+  backbone_name: CasiaNet
