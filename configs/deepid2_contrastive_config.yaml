@@ -1,4 +1,4 @@
-experiment_name: deepid_ms1m_softmax
+experiment_name: deepid_ms1m_contrastive_softmax_deeply_supervised
 logging_dir: /home/blcv/Projects/pyface-data/logs
 batch_size: 512
 num_workers: 16

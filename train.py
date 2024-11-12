@@ -1,16 +1,15 @@
+import sys
+
 import torch
 
 from pyface.config import load_config
+from pyface.model import DeepIDLightningModule, CasiaNetLightningModule
 from pyface.trainer import FaceRecognitionTrainer
 
 torch.backends.cuda.matmul.allow_tf32 = True
+
 if __name__ == "__main__":
-    config_path = "configs/deepface_config.yaml"
+    config_path = sys.argv[1]
     config = load_config(config_path)
     trainer = FaceRecognitionTrainer(config)
     trainer.train()
-
-    # config_path = "configs/deepid2_config.yaml"
-    # config = load_config(config_path)
-    # trainer = FaceRecognitionTrainer(config)
-    # trainer.train(DeepIDLightningModule)

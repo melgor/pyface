@@ -30,20 +30,20 @@ class ForwardProtocol(Protocol):
     def _init_weights(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                # init.xavier_uniform_(m.weight.data)
-                init.orthogonal_(m.weight.data)
+                init.xavier_uniform_(m.weight.data)
+                # init.orthogonal_(m.weight.data)
                 if m.bias is not None:
-                    init.constant_(m.bias.data, val=0.5)
-                    # m.bias.data.zero_()
+                    # init.constant_(m.bias.data, val=0.5)
+                    m.bias.data.zero_()
             elif isinstance(m, nn.BatchNorm2d):
                 init.constant_(m.weight.data, 1)
                 m.bias.data.zero_()
             elif isinstance(m, nn.Linear):
-                # init.normal_(m.weight.data, 0, 0.01)
-                init.orthogonal_(m.weight.data)
+                init.normal_(m.weight.data, 0, 0.01)
+                # init.orthogonal_(m.weight.data)
                 if m.bias is not None:
-                    init.constant_(m.bias.data, val=0.5)
-                    # m.bias.data.zero_()
+                    # init.constant_(m.bias.data, val=0.5)
+                    m.bias.data.zero_()
 
 
 class FaceRecognitionModel(nn.Module, ForwardProtocol):

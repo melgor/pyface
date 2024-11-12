@@ -178,12 +178,12 @@ class DeepIDLightningModule(FaceRecognitionLightningModule):
         loss_classes: torch.Tensor = torch.stack(
             [self.loss_function(output, labels) for output in output_classes]
         ).sum()
-        # loss_classes = torch.Tensor(0).cuda()
+
         loss_contrastive: torch.Tensor = torch.stack(
             [self.contrastive_loss(output, labels) for output in output_classes]
         ).sum()
 
-        loss = loss_classes + 0.25 * loss_contrastive
+        loss = loss_classes + 1.00 * loss_contrastive
 
         # log step metric
         self._accuracy(output_classes[0], labels)
@@ -245,7 +245,7 @@ class CasiaNetLightningModule(FaceRecognitionLightningModule):
         loss_classes: torch.Tensor = self.loss_function(output_classes, labels)
         loss_contrastive: torch.Tensor = self.contrastive_loss(embeddings, labels)
 
-        loss = loss_classes + 0.25 * loss_contrastive
+        loss = 0.0 * loss_classes + 1.0 * loss_contrastive
 
         # log step metric
         self._accuracy(output_classes, labels)

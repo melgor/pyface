@@ -52,6 +52,7 @@ class FaceRecognitionTrainer:
                 save_dir=os.path.join(self.config.logging_dir, "wandb"),
             )
             loggers.append(wandb_logger)
+            wandb_logger.experiment.log_code(root=".")
 
         self.trainer = pl.Trainer(
             max_epochs=self.config.num_epochs + 1,
@@ -71,10 +72,10 @@ class FaceRecognitionTrainer:
         data_model = FaceDataModule(config=self.config)
         model = lightning_module(self.config)
 
-        # try:
-        logger.info("Start training")
-        self.trainer.fit(model, data_model, ckpt_path=self.config.resume_path)
-        logger.info("Training finalized")
-        # finally:
-        #     self.trainer.save_checkpoint(weight_dir + "last.pth")
-        #     model_checkpoints.to_yaml()
+        try:
+            logger.info("Start training")
+            self.trainer.fit(model, data_model, ckpt_path=self.config.resume_path)
+            logger.info("Training finalized")
+        finally:
+            self.trainer.save_checkpoint(weight_dir + "last.pth")
+            model_checkpoints.to_yaml()
