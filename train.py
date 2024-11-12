@@ -3,7 +3,6 @@ import sys
 import torch
 
 from pyface.config import load_config
-from pyface.model import DeepIDLightningModule, CasiaNetLightningModule
 from pyface.trainer import FaceRecognitionTrainer
 
 torch.backends.cuda.matmul.allow_tf32 = True

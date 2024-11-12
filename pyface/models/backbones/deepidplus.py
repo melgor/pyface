@@ -58,7 +58,7 @@ class DeepID2Plus(nn.Module):
 
         # Fully connected layers
         features_final = self.fc1(x_merged)
-        return features_final#, features_1, features_2, features_3
+        return features_final  # , features_1, features_2, features_3
 
 
 # Example usage
