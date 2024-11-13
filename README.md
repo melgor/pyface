@@ -1,4 +1,17 @@
-# pyface
+ &nbsp;
+ &nbsp;
+  
+<div align="center">
+  <img src="PyFace.png" width="400"/>
+</div>
+
+<div align="center">
+	
+[![made-with-pytorch](https://img.shields.io/badge/Made%20with-PyTorch-brightgreen)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+</div>
+
+
 Train the Face-Recognition model with ease. 
 
 The library implements old and new Face-Recognition architectures, together with their loss functions.
