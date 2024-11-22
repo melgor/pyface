@@ -18,6 +18,7 @@ The library implements old and new Face-Recognition architectures, together with
 
 There is a series of associated blog posts with this repository:
 1. [History of Face Recognition: Part 1 - DeepFace](https://medium.com/@melgor89/history-of-face-recognition-part-1-deepface-94da32c5355c)
+2. [History of Face Recognition: Part 2 - DeepID and CasiaWebFace](https://medium.com/@melgor89/history-of-face-recognition-part-2-e9ccfd6be533)
 
 # Dataset
 Thanks to the great library [face.evolve](https://github.com/ZhaoJ9014/face.evoLVe/tree/master), all datasets are available online. The only changes I made:
